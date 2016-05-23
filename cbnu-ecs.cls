@@ -657,7 +657,7 @@
 
 	%\hfill 
 	\newpage
-	\chapter*{}
+	%\chapter*{}
 	%\pagestyle{empty}
 	%\newpage 
 	\pagestyle{plain}
@@ -825,12 +825,12 @@
 \fontsize{11}{20.5}\selectfont
 }
 \def\@makechapterhead#1{% <-- 전체 변경
-    \vspace*{10\p@}
+    %\vspace*{10\p@}
     {\centering \parindent\z@ \Large\bfseries
     \ifthenelse{\equal{\@textlang}{korean}}
         {\Roman{chapter}.\ }
         {\thechapter.\hspace{1ex}}
-    #1\par
+    #1\par\vspace*{30\p@}
 }
 %    {\parindent\z@ \LARGE\bfseries
 %    \ifthenelse{\equal{\@textlang}{korean}}
