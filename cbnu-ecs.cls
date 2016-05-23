@@ -50,7 +50,7 @@
 \ProcessOptions
 
 %% 10pt,a4paper,onecolumn,oneside 옵션으로 report 클래스 불러오기
-\LoadClass[10pt,a4paper,onecolumn,oneside]{report}
+\LoadClass[11pt,a4paper,onecolumn,oneside]{report}
 
 \RequirePackage{ifthen}       % 추가 패키지 설정
 
@@ -113,7 +113,8 @@
 
 %% 줄간격 설정
 %\renewcommand{\baselinestretch}{1.9}
-\linespread{1.9}
+%\linespread{1.9}
+%\fontsize{11}{20.5}\selectfont
 
 %% 본문이 영어로 되어있는지 한글로 되어있는지 설정
 \newcommand{\@korean}{korean}
