@@ -973,8 +973,8 @@
     \if@twocolumn
         \@topnewpage[\@makeschapterhead{#1}]%
     \else
-        %\@makeschapterhead{#1}%
-        %\@afterheading
+        \@makeschapterhead{#1}%
+        \@afterheading
     \fi}
 \def\@makeschapterhead#1{% <-- 전체 변경
     \vspace*{10\p@}
