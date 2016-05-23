@@ -54,6 +54,9 @@
 
 \RequirePackage{ifthen}       % 추가 패키지 설정
 
+
+
+
 %%%% Hangul-ucs preamble.......
 \RequirePackage[nonfrench]{dhucs}
 \RequirePackage[default]{dhucs-interword}
@@ -918,6 +921,8 @@
 %%
 %% \chapter 재정의 - report 클래스로부터 복사하여 일부 수정
 %%
+%\renewcommand{\thechapter}{\Roman{chapter}}
+
 \renewcommand\chapter{%
     \if@openright\cleardoublepage\else\clearpage\fi
 %   \thispagestyle{plain}%
@@ -931,9 +936,9 @@
         \typeout{\@chapapp\space\thechapter.}%
         \addcontentsline{toc}{chapter}{%
             \if@isKorean
-                \protect\numberline{제 \thechapter\ 장}#1
+                \protect\numberline{\Roman{chapter}.}#1
             \else
-                \protect\numberline{\thechapter}#1
+                \protect\numberline{\Roman{chapter}}#1
             \fi
         }% <-- 목차에 나타나는 형식 - 변경사항
     \else
@@ -951,24 +956,25 @@
 }
 \def\@makechapterhead#1{% <-- 전체 변경
     \vspace*{10\p@}
-%    {\centering \parindent\z@ \LARGE\bfseries
-%    \ifthenelse{\equal{\@textlang}{korean}}
-%        {제\hspace{1.4ex}\thechapter\hspace{1.4ex}장\hspace{2ex}}
-%        {\thechapter.\hspace{1ex}}
-%    \\#1\par}
-    {\parindent\z@ \LARGE\bfseries
+    {\centering \parindent\z@ \LARGE\bfseries
     \ifthenelse{\equal{\@textlang}{korean}}
-        {제\hspace{1.4ex}\thechapter\hspace{1.4ex}장\hspace{2ex}\vspace{2ex}}
-        {\thechapter.\hspace{1ex}\vspace{2ex}}
-    \\#1\par}
-    \vspace*{60\p@}
+        {제\hspace{1.4ex}\Roman{chapter}\hspace{1.4ex}장\hspace{2ex}}
+        {\thechapter.\hspace{1ex}}
+    \\#1\par
+}
+%    {\parindent\z@ \LARGE\bfseries
+%    \ifthenelse{\equal{\@textlang}{korean}}
+        %{제\hspace{1.4ex}\thechapter\hspace{1.4ex}장\hspace{2ex}\vspace{2ex}}
+%        {\Roman{chapter}.\hspace{1ex}\vspace{2ex}}
+%    \\#1\par}
+    %\vspace*{60\p@}
 }
 \def\@schapter#1{%
     \if@twocolumn
         \@topnewpage[\@makeschapterhead{#1}]%
     \else
-        \@makeschapterhead{#1}%
-        \@afterheading
+        %\@makeschapterhead{#1}%
+        %\@afterheading
     \fi}
 \def\@makeschapterhead#1{% <-- 전체 변경
     \vspace*{10\p@}
