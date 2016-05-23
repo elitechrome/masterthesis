@@ -315,7 +315,7 @@
         {\renewcommand{\@degreeCode}{\@degreePrefix#1}%
          \renewcommand{\@deptNameKor}{전기$\cdot$전자$\cdot$컴퓨터학부}%
          \renewcommand{\@deptNameChn}{전기전자컴퓨터공학}%
-         \renewcommand{\@deptNameEng}{Electric ElectronicsComputer Engineering}%
+         \renewcommand{\@deptNameEng}{Electrical Engineering and Computer Science}%
          \renewcommand{\@divNameKor}{제어로봇공학}%
          \renewcommand{\@divNameChn}{제어로봇공학}%
          \renewcommand{\@divNameEng}{Control and Robot Engineering}
@@ -491,18 +491,18 @@
     \thispagestyle{empty} \noindent%
     \begin{minipage}[t][19mm][t]{\textwidth}
         \begin{center}
-            \Large
+            \Large \bf
             \if@isDoctor
                 박 사 학 위 논 문%%\\ Doctoral Thesis
             \else
-                석 사 학 위 논 문%%\\ Master's Thesis
+                공학석사학위논문%%\\ Master's Thesis
             \fi
         \end{center}
     \end{minipage}\\[0mm]
-    \begin{minipage}[t][45mm][t]{\textwidth}
+    \begin{minipage}[t][75mm][t]{\textwidth}
         \begin{center}
-            \huge  \@titleKor \\[15pt]
-            %%\Large \@titleEng
+            \LARGE \bf  \@titleKor \\[15pt]
+            \Large\bf \@titleEng
         \end{center}
     \end{minipage}\\[0mm]
 	\begin{minipage}[t][11mm][t]{\textwidth}
@@ -523,15 +523,9 @@
 			\@authorKorFN\ \@authorKorGN 
 		\end{center}
 	\end{minipage}\\[0mm]
-	\begin{minipage}[t][45mm][t]{\textwidth}
+	\begin{minipage}[t][10mm][t]{\textwidth}
 		\begin{center}
 		\Large 
-			지도교수\hspace{15pt} \@advisorMajorKor
-		\end{center}
-	\end{minipage}\\[0mm]
-	\begin{minipage}[t][20mm][t]{\textwidth}
-		\begin{center}
-		\LARGE 
 			\@gradYear\ 년 \@gradMonth\ 월
 		\end{center}
 	\end{minipage}\\[0mm]
@@ -547,42 +541,30 @@
 \renewcommand{\maketitle}{%
     \renewcommand{\baselinestretch}{1.3}%
     \thispagestyle{empty} \noindent%
-    \begin{minipage}[t][40mm][t]{\textwidth}
+    \begin{minipage}[t][19mm][t]{\textwidth}
         \begin{center}
-            \huge  \@titleKor 
+            \Large \bf
+            \if@isDoctor
+                박 사 학 위 논 문%%\\ Doctoral Thesis
+            \else
+                공학석사학위논문%%\\ Master's Thesis
+            \fi
         \end{center}
     \end{minipage}\\[0mm]
-	\begin{minipage}[t][35mm][t]{\textwidth}
+    \begin{minipage}[t][75mm][t]{\textwidth}
+        \begin{center}
+            %\huge  \@titleKor 
+            \LARGE\bf  \@titleKor \\[15pt]
+            \Large\bf \@titleEng
+        \end{center}
+    \end{minipage}\\[0mm]
+	\begin{minipage}[t][20mm][t]{\textwidth}
 		\begin{center}
 		\Large 
 			지도교수\hspace{15pt} \@advisorMajorKor
 		\end{center}
 	\end{minipage}\\[0mm]
-	\begin{minipage}[t][30mm][t]{\textwidth}
-		\begin{center}
-		\LARGE 
-			이 논문을 
-            \if@isDoctor
-			공학박사학위
-            \else
-			공학석사학위
-            \fi \\
-			청구논문으로 제출함
-		\end{center}
-	\end{minipage}\\[0mm]
-	\begin{minipage}[t][25mm][t]{\textwidth}
-		\begin{center}
-		\Large 
-			\@submitYear\ 년 \@submitMonth\ 월
-		\end{center}
-	\end{minipage}\\[0mm]
-	\begin{minipage}[t][15mm][t]{\textwidth}
-		\begin{center}
-		\Large 
-			충북대학교 대학원
-		\end{center}
-	\end{minipage}\\[0mm]
-	\begin{minipage}[t][15mm][t]{\textwidth}
+	\begin{minipage}[t][20mm][t]{\textwidth}
 		\begin{center}
 		\Large 
 			\@deptNameKor \ \  \@divNameKor 전공
@@ -594,6 +576,25 @@
 			\@authorKorFN\ \@authorKorGN 
 		\end{center}
 	\end{minipage}\\[0mm]
+	\begin{minipage}[t][20mm][t]{\textwidth}
+		\begin{center}
+		\large 
+			이 논문을 
+            \if@isDoctor
+			공학박사학위
+            \else
+			공학석사학위
+            \fi 
+			청구논문으로 제출함.
+		\end{center}
+	\end{minipage}\\[0mm]
+	\begin{minipage}[t][10mm][t]{\textwidth}
+		\begin{center}
+		\Large 
+			\@submitYear\ 년 \@submitMonth\ 월
+		\end{center}
+	\end{minipage}\\[0mm]
+
 	\newpage
 	\chapter*{}
 	\pagestyle{empty}
@@ -606,9 +607,11 @@
 \newcommand{\makeapproval}{%
     % 학위논문 심사완료 검인서
     \newpage \thispagestyle{empty} \noindent
-    \begin{minipage}[t][45mm][t]{\textwidth}
+    \begin{minipage}[t][25mm][t]{\textwidth}
         \begin{center}
-            \huge 
+            %\huge
+			\Large 
+			\bf
 			\vspace{1cm}
 			본 논문을 
 			\@authorKorFN\StrDel{\@authorKorGN}{ }의 
@@ -621,14 +624,15 @@
         \end{center}
     \end{minipage}\\[0mm]
     \parbox[t][10mm][t]{\textwidth}{\mbox{}}       % 10mm 공백삽입
-        \begin{minipage}[t][80mm][t]{\textwidth}
-        \Large
+        \begin{minipage}[t][100mm][t]{\textwidth}
+        \LARGE
+		\bf
         \begin{center}
         \newcommand{\@nameWidth}{95pt}
         \begin{tabular}{lll}                 % 심사위원명단
-        \\[10pt]심사위원장 & \ \makebox[\@nameWidth][s]{}  & .\\ \cline{2-3}
-        심사위\hspace{10pt} 원  & \ \makebox[\@nameWidth][s]{} & .\\ \cline{2-3}
-        심사위\hspace{10pt} 원  & \ \makebox[\@nameWidth][s]{} & .\\ \cline{2-3}
+        \\[10pt]심\hspace{3.5pt}사\hspace{3.5pt}위\hspace{3.5pt}원\hspace{3.5pt}장\hspace{15pt} & \ \makebox[\@nameWidth][s]{}  & (인)\\ \cline{2-3}\\
+        심\hspace{9pt}사\hspace{9pt}위\hspace{9pt}원  & \ \makebox[\@nameWidth][s]{} & (인)\\ \cline{2-3}\\
+        심\hspace{9pt}사\hspace{9pt}위\hspace{9pt}원  & \ \makebox[\@nameWidth][s]{} & (인)\\ \cline{2-3}\\
 		\if@isDoctor
         위\hspace{10pt} 원  & \ \makebox[\@nameWidth][s]{} & .\\ \cline{2-3}
         위\hspace{10pt} 원  & \ \makebox[\@nameWidth][s]{} & .\\ \cline{2-3}
@@ -636,24 +640,26 @@
         \end{tabular}
         \end{center}
     \end{minipage} 
-    \begin{minipage}[t][10mm][t]{\textwidth}	
+    \begin{minipage}[t][30mm][t]{\textwidth}	
 		\begin{center}
-		\LARGE
-		충 북 대 학 교\hspace{15pt} 대 학 원
+		\Large
+		\bf
+		충\hspace{15pt}북\hspace{15pt}대\hspace{15pt}학\hspace{15pt}교\hspace{15pt}대\hspace{15pt}학\hspace{15pt}원
 		\end{center}
 	\end{minipage}
 	\begin{minipage}[t][20mm][t]{\textwidth}
         \Large 
+		\bf
 		\begin{center}
 		\@approvalYear\ 년 \@approvalMonth\ 월 \\[7mm]
 		\end{center}
     \end{minipage}\\[0mm]
 
-	\hfill 
+	%\hfill 
 	\newpage
 	\chapter*{}
-	\pagestyle{empty}
-	\newpage 
+	%\pagestyle{empty}
+	%\newpage 
 	\pagestyle{plain}
 }
 
@@ -661,32 +667,32 @@
 %% 한글요약문 생성
 %%
 
-\newenvironment{summary}{%              % 요약문 생성 환경
-	\ifthenelse{\isodd{\value{page} + 1}}{
-		\clearpage
-		\chapter*{}
-		\pagestyle{plain}
-		\newpage 
-	}{
-		\clearpage
-	}
-    \newcommand{\@tempbreak}{}
-    \let\@tempbreak\linebreak
-    \renewcommand{\linebreak}{\ }      % \linebreak 명령 바꿔치기
-    \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{요약문 (국문)}
-    \begin{quote}
-        \begin{center}
-            \noindent 
-			\Large \textsf{\@titleKor} \\[10mm]
-			\textsf{\@authorKorFN \ \@authorKorGN} \\[13mm]
-			\large
-			충북대학교 대학원 \@deptNameKor 과 \@divNameKor 전공 \\
-			( 지도교수  \@advisorMajorKor \ )\\[15mm]
-        \end{center}
-    \end{quote}% \setlength{\parindent}{0pt}
-}{  \let\linebreak\@tempbreak          			% \linebreak 명령 되돌리기
-	\newpage
-}
+%\newenvironment{summary}{%              % 요약문 생성 환경
+%	\ifthenelse{\isodd{\value{page} + 1}}{
+%		\clearpage
+%		\chapter*{}
+%		\pagestyle{plain}
+%		\newpage 
+%	}{
+%		\clearpage
+%	}
+%    \newcommand{\@tempbreak}{}
+%    \let\@tempbreak\linebreak
+%    \renewcommand{\linebreak}{\ }      % \linebreak 명령 바꿔치기
+%    \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{요약문 (국문)}
+%    \begin{quote}
+%        \begin{center}
+%            \noindent 
+%			\Large \textsf{\@titleKor} \\[10mm]
+%			\textsf{\@authorKorFN \ \@authorKorGN} \\[13mm]
+%			\large
+%			충북대학교 대학원 \@deptNameKor 과 \@divNameKor 전공 \\
+%			( 지도교수  \@advisorMajorKor \ )\\[15mm]
+%       \end{center}
+%    \end{quote}% \setlength{\parindent}{0pt}
+%}{  \let\linebreak\@tempbreak          			% \linebreak 명령 되돌리기
+%	\newpage
+%}
 
 %%
 %% 초록(abstract)페이지 생성
@@ -694,17 +700,17 @@
 \renewenvironment{abstract}{%
 	\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 	\renewcommand{\baselinestretch}{1.0}
-	\renewcommand{\abstractname}{ABSTRACT}
+	\renewcommand{\abstractname}{Abstract}
 	\begin{center}
-	\Large
-	\textbf{\abstractname}\footnotemark[1] \\[10mm]
-	\@titleEng \\[10mm]
+	\Large\textbf{\@titleEng \footnotemark[1]} \\[10mm]
+	\textit{\@authorEngFN, \@authorEngGN}  \\[10mm]
+
 	\large
-	\@authorEngGN\ \@authorEngFN \\[10mm]
-	Department of \@deptNameEng, Graduate School \\
-	Chungbuk National University \\
-	Cheongju, Korea\\[10mm]
-	( Supervised by Professor \@advisorMajorEng\ )\\[10mm]
+	School of \@deptNameEng, \\[2mm]
+	Graduate School of Chungbuk National University, \\[2mm]
+	Cheongju, Korea\\[2mm]
+	Supervised by Professor \@advisorMajorEng\ \\[10mm]
+	\textbf{\abstractname}  \\[10mm]
 	\end{center}
 	
 	\if@isKorean
@@ -717,12 +723,11 @@
 	\normalfont
 }{ \renewcommand{\baselinestretch}{1.0}
 	\footnotetext[1]{\normalsize 
-	A dissertation submitted to the committee of Graduate School,
-	Chungbuk National University in a partial fulfillment of the requirements for the 
-	degree of Doctor of Philosophy conferred in \@gradMonthStr\ \@gradYear.}
+	A thesis for the degree of Master in \@gradMonthStr\ \@gradYear.}
 	\pagenumbering{roman}
+	\setcounter{page}{\value{pagemarker}}         % pagemarker에 저장된 값으로
 	\newpage 
-	
+	\setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
 	% \pagenumbering{arabic}              % 페이지 아라비아 수자 포맷
 	\let\linebreak\@tempbreak                    % \linebreak 명령 복원
 }
@@ -731,9 +736,9 @@
 %% 목차 일괄 생성
 %%
 \newcommand{\makecontents}{%            % TOC, LOT, LOF 생성
-    \tableofcontents
     \listoftables
     \listoffigures
+    \tableofcontents
 }
 
 %%
@@ -753,142 +758,6 @@
 }
 
 
-\newcommand{\curriculumvitae}[1][default]{%     % 이력서
-    \newcommand{\@ccvlang}{#1}
-    \ifthenelse{\equal{#1}{default}}            % 아무 옵션을 설정하지 않으면
-        {\let\@ccvlang\@textlang}{}           % 논문 언어대로 이력서 언어설정
-    \ifthenelse{\equal{\@ccvlang}{\@korean}}
-        {\chapter*{이 력 서}}                 % korean  옵션일 경우
-        {\chapter*{Curriculum Vitae}}         % english 옵션일 경우
-    \pagestyle{empty}
-}
-
-%%
-%% 이력서 내부 요소 생성
-%%
-    \newenvironment{personaldata}{%            % 개인정보
-        \begin{list}{}{%
-            \setlength{\labelwidth}{70pt}
-            \setlength{\leftmargin}{\labelwidth}
-            \addtolength{\leftmargin}{\labelsep}
-            \setlength{\parsep}{0pt}
-            \renewcommand{\makelabel}[1]{\textgt{##1\ \ :\ }}}
-        \newcommand{\name}[1]{%               % 이름
-            \ifx\@ccvlang\@korean
-                \def\@arg{[이\hfill름]}
-            \else
-                \def\@arg{[Name\hfill]}
-            \fi
-            \expandafter\item\@arg ##1}
-        \newcommand{\dateofbirth}[3]{%        % 생년월일
-            \ifx\@ccvlang\@korean
-                \def\@arg{[생\hfill년\hfill월\hfill일]}
-                \expandafter\item\@arg ##1년 ##2월 ##3일
-            \else
-                \def\@arg{[Date of Birth\hfill]}
-                \expandafter\item\@arg \@dateUSenglish{##1}{##2}{##3}
-            \fi}
-        \newcommand{\birthplace}[1]{%         % 출생지
-            \ifx\@ccvlang\@korean
-                \def\@arg{[출\hfill생\hfill지]}
-            \else
-                \def\@arg{[Birthplace\hfill]}
-            \fi
-            \expandafter\item\@arg ##1}
-        \newcommand{\domicile}[1]{%           % 본적지
-            \ifx\@ccvlang\@korean
-                \def\@arg{[본\hfill적\hfill지]}
-            \else
-                \def\@arg{[Domicile\hfill]}
-            \fi
-            \expandafter\item\@arg ##1}
-        \newcommand{\address}[1]{%            % 주소지
-            \ifx\@ccvlang\@korean
-                \def\@arg{[주\hfill소]}
-            \else
-                \def\@arg{[Address\hfill]}
-            \fi
-            \expandafter\item\@arg ##1}
-        \newcommand{\email}[1]{%              % E-mail
-            \ifx\@ccvlang\@korean
-                \def\@arg{[E-mail\hfill주\hfill소]}
-            \else
-                \def\@arg{[E-mail\hfill]}
-            \fi
-            \expandafter\item\@arg ##1}
-        % 이력서에 집어넣을 추가 필드가 필요하면 위를 참고하여 만들어 쓸 것.
-        % \newcommand{(필드명령)}[1]{%
-        %   \ifx\@ccvlang\@korean
-        %       \def\@arg{[(한글필드명)]}
-        %   \else
-        %       \def\@arg{[(영문필드명)]}
-        %   \fi
-        %   \expandafter\item\@arg ##1}
-    }{\end{list}}
-
-    \newenvironment{education}{%               % 학력
-        \vspace*{5mm} \noindent
-        \ifx\@ccvlang\@korean
-            \begin{center}
-                \makebox[2cm][s]{\textbf{\large 학 력}}
-            \end{center}
-        \else \textbf{\large Educations} \fi
-        \begin{list}{}{%
-            \setlength{\labelwidth}{95pt}
-            \setlength{\leftmargin}{\labelwidth}
-            \addtolength{\leftmargin}{\labelsep}
-            \setlength{\parsep}{0pt}
-            \renewcommand{\makelabel}[1]{\textgt{##1\hfill\ }}}
-    }{\end{list}}
-
-    \newenvironment{career}{%                  % 경력
-        \vspace*{5mm} \noindent
-        \ifx\@ccvlang\@korean
-            \begin{center}
-                \makebox[2cm][s]{\textbf{\large 경 력}}
-            \end{center}
-        \else \textbf{\large Career} \fi
-        \begin{list}{}{%
-            \setlength{\labelwidth}{95pt}
-            \setlength{\leftmargin}{\labelwidth}
-            \addtolength{\leftmargin}{\labelsep}
-            \setlength{\parsep}{\z@}
-            \renewcommand{\makelabel}[1]{\textgt{##1\hfill\ }}}
-    }{\end{list}}
-
-    \newcounter{itemnum1}
-    \newenvironment{activity}{%                % 학회활동
-        \vspace*{5mm} \noindent
-        \ifx\@ccvlang\@korean
-            \begin{center}
-                \makebox[2cm][s]{\textbf{\large 학 회 활 동}}
-            \end{center}
-        \else \textbf{\large Academic Activities} \fi
-        \begin{list}{}{%
-            \usecounter{itemnum1}
-            \setlength{\labelwidth}{1.5em}
-            \setlength{\leftmargin}{\labelwidth}
-            \addtolength{\leftmargin}{\labelsep}
-            \setlength{\parsep}{\z@}
-            \renewcommand{\makelabel}{\textgt{\arabic{itemnum1}.\ }}}
-    }{\end{list}}
-
-    \newcounter{itemnum2}
-    \newenvironment{publication}{%             % 연구업적
-        \vspace*{5mm} \noindent
-        \ifx\@ccvlang\@korean
-            \begin{center}
-                \makebox[2cm][s]{\textbf{\large 연 구 업 적}}
-            \end{center}
-        \else \textbf{\large Publications} \fi
-        \begin{list}{}{%
-            \usecounter{itemnum2}
-            \setlength{\labelwidth}{1.5em}
-            \setlength{\leftmargin}{\labelwidth}
-            \addtolength{\leftmargin}{\labelsep}
-            \setlength{\parsep}{\z@}
-            \renewcommand{\makelabel}{\textgt{\arabic{itemnum2}.\ }}}
-    }{\end{list}}
 
 %%
 %% 헤딩 재설정
@@ -936,7 +805,7 @@
         \typeout{\@chapapp\space\thechapter.}%
         \addcontentsline{toc}{chapter}{%
             \if@isKorean
-                \protect\numberline{\Roman{chapter}.}#1
+                \protect\numberline{\Roman{chapter}.\ #1}
             \else
                 \protect\numberline{\Roman{chapter}}#1
             \fi
@@ -953,14 +822,15 @@
         \@makechapterhead{#2}%
         \@afterheading%
     \fi
+\fontsize{11}{20.5}\selectfont
 }
 \def\@makechapterhead#1{% <-- 전체 변경
     \vspace*{10\p@}
-    {\centering \parindent\z@ \LARGE\bfseries
+    {\centering \parindent\z@ \Large\bfseries
     \ifthenelse{\equal{\@textlang}{korean}}
-        {제\hspace{1.4ex}\Roman{chapter}\hspace{1.4ex}장\hspace{2ex}}
+        {\Roman{chapter}.\ }
         {\thechapter.\hspace{1ex}}
-    \\#1\par
+    #1\par
 }
 %    {\parindent\z@ \LARGE\bfseries
 %    \ifthenelse{\equal{\@textlang}{korean}}
@@ -978,9 +848,29 @@
     \fi}
 \def\@makeschapterhead#1{% <-- 전체 변경
     \vspace*{10\p@}
-    {\centering \parindent\z@ \LARGE\bfseries #1\par}
+    {\centering \parindent\z@ \Large\bfseries #1\par}
     \vspace*{20\p@}
 }
+\renewcommand\section{\@startsection {section}{1}{\z@}%
+                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
+                                     {1.5ex \@plus .2ex}%
+                                     {\normalfont\normalsize\bfseries}}
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+                                    {3.25ex \@plus1ex \@minus.2ex}%
+                                    {-1em}%
+                                    {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+                                       {3.25ex \@plus1ex \@minus .2ex}%
+                                       {-1em}%
+                                      {\normalfont\normalsize\bfseries}}
 
 %%
 %% 표와 그림 표기에 쓰이는 표제어 재정의
@@ -992,6 +882,7 @@
 %% \tableofcontents 재정의 - report 클래스로부터 복사하여 일부 수정
 %%
 \renewcommand\tableofcontents{%
+
     \if@twocolumn
         \@restonecoltrue\onecolumn
     \else
@@ -1003,8 +894,15 @@
     \setcounter{page}{\value{pagemarker}}         % pagemarker에 저장된 값으로
     \@starttoc{toc}%
     \if@restonecol\twocolumn\fi
-    \newpage \setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
-    \pagenumbering{arabic}                        % arabic 페이지번호로 재시작
+	\if@isKorean
+    	\if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{Contents}% 초록을 목차(TOC)에 삽입
+	\else
+    	\if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{Contents}% 초록을 목차(TOC)에 삽입
+	\fi
+	
+    \newpage 
+\setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
+    %\pagenumbering{arabic}                        % arabic 페이지번호로 재시작
 }
 
 %%
@@ -1023,8 +921,9 @@
     \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{\listtablename}% 목차(TOC)에 추가
     \@starttoc{lot}%
     \if@restonecol\twocolumn\fi
-    \newpage \setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
-    \pagenumbering{arabic}                        % arabic 페이지번호로 재시작
+    \newpage 
+\setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
+    %\pagenumbering{arabic}                        % arabic 페이지번호로 재시작
 }
 
 %%
@@ -1043,8 +942,9 @@
     \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{\listfigurename}% 목차(TOC)에 추가
     \@starttoc{lof}%
     \if@restonecol\twocolumn\fi
-    \newpage \setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
-    \pagenumbering{arabic}                        % arabic 페이지번호로 재시작
+    \newpage 
+\setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
+    %\pagenumbering{arabic}                        % arabic 페이지번호로 재시작
 }
 
 %%
