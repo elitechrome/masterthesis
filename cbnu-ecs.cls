@@ -2,13 +2,13 @@
 %% CNU Thesis Template for LaTeX - 
 %% modified from KAIST Thesis Template for LaTeX
 %%
-%% @version      0.4
-%% @releasedate  Nov 12th, 2004
+%% @version      0.1
+%% @releasedate  Jun 3th, 2016
 %%
-%% @author       Chae, Seugbyung 채승병
-%%               mailto:chess@cnu.ac.kr
-%% @author		 Lee, Byungjoon 이병준
-%% 				 mailto:bjlee@etri.re.kr
+%% @author       Shim, Youngbo 심영보
+%%               shim36145@gmail.com
+%% @author	 Lee, Jae-min 이재민
+%% 		 ljm6525@gmail.com
 %%
 %% @requirements
 %%    current distribution of teTeX, fpTeX, MikTeX
@@ -50,7 +50,7 @@
 \ProcessOptions
 
 %% 10pt,a4paper,onecolumn,oneside 옵션으로 report 클래스 불러오기
-\LoadClass[11pt,a4paper,onecolumn,oneside]{report}
+\LoadClass[10pt,a4paper,onecolumn,oneside]{report}
 
 \RequirePackage{ifthen}       % 추가 패키지 설정
 
@@ -854,15 +854,15 @@
 \renewcommand\section{\@startsection {section}{1}{\z@}%
                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
                                    {2.3ex \@plus.2ex}%
-                                   {\normalfont\large\bfseries}}
+                                   {\normalfont\fontsize{12}{20.5}\bfseries}}
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
                                      {1.5ex \@plus .2ex}%
-                                     {\normalfont\normalsize\bfseries}}
+                                     {\normalfont\fontsize{11}{20.5}\bfseries}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
                                      {1.5ex \@plus .2ex}%
-                                     {\normalfont\normalsize\bfseries}}
+                                     {\normalfont\fontsize{11}{20.5}\bfseries}}
 \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
                                     {3.25ex \@plus1ex \@minus.2ex}%
                                     {-1em}%
