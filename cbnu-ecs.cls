@@ -56,7 +56,6 @@
 
 
 
-
 %%%% Hangul-ucs preamble.......
 \RequirePackage[nonfrench]{dhucs}
 \RequirePackage[default]{dhucs-interword}
@@ -68,12 +67,12 @@
  \if@PDFdoc
   \RequirePackage{dhucs-ucshyper}
   \hypersetup{%
-  	colorlinks=true,%
+  	colorlinks=false,%
 	plainpages=false,%
-	pdfpagelabels=true,%
+	pdfpagelabels=false,%
   }
  \else
-  \RequirePackage[bookmarks=false,colorlinks=false,plainpages=false]{hyperref}
+  \RequirePackage[bookmarks=false,colorlinks=false,plainpages=false,hidelinks]{hyperref}
  \fi
 \else % dvipdfmx
   \RequirePackage{graphicx}
@@ -84,9 +83,9 @@
   \RequirePackage{dhucs-ucshyper}
   \hypersetup{%
      dvipdfm=true,
-     colorlinks=true,
+     colorlinks=false,
      plainpages=false,
-     pdfpagelabels=true
+     pdfpagelabels=false
   }
  \else
   \RequirePackage[dvipdfm,bookmarks=false,colorlinks=false,plainpages=false]{hyperref}
@@ -793,6 +792,9 @@
 %\renewcommand{\thechapter}{\Roman{chapter}}
 
 \renewcommand\chapter{%
+\fontsize{11}{20.5}\selectfont
+%\interhword[.6]{.475}{.1}{.1}
+
     \if@openright\cleardoublepage\else\clearpage\fi
    %\thispagestyle{plain}%
     \global\@topnum\z@
@@ -822,7 +824,6 @@
         \@makechapterhead{#2}%
         \@afterheading%
     \fi
-\fontsize{11}{20.5}\selectfont
 }
 \def\@makechapterhead#1{% <-- 전체 변경
     %\vspace*{10\p@}
@@ -851,12 +852,12 @@
     {\centering \parindent\z@ \Large\bfseries #1\par}
     \vspace*{20\p@}
 }
-\renewcommand\section{\addtocontents{toc}{\protect\addvspace{10\p@}}
+\renewcommand\section{
 									\@startsection {section}{1}{\z@}%
                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
                                    {2.3ex \@plus.2ex}%
                                    {\normalfont\fontsize{12}{20.5}\bfseries}}
-\renewcommand\subsection{\addtocontents{toc}{\protect\addvspace{10\p@}}\@startsection{subsection}{2}{\z@}%
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
                                      {1.5ex \@plus .2ex}%
                                      {\normalfont\fontsize{11}{20.5}\bfseries}}
