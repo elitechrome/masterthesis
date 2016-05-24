@@ -530,9 +530,9 @@
 		\end{center}
 	\end{minipage}\\[0mm]
     \newpage
-	\chapter*{}
-	\pagestyle{empty}
-	\newpage 
+	%\chapter*{}
+	%\pagestyle{empty}
+	%\newpage 
 }
 
 %%
@@ -595,9 +595,9 @@
 		\end{center}
 	\end{minipage}\\[0mm]
 
-	\newpage
-	\chapter*{}
-	\pagestyle{empty}
+%	\newpage
+%	\chapter*{}
+%	\pagestyle{empty}
 	\newpage 
 }
 
@@ -640,14 +640,14 @@
         \end{tabular}
         \end{center}
     \end{minipage} 
-    \begin{minipage}[t][30mm][t]{\textwidth}	
+    \begin{minipage}[t][25mm][t]{\textwidth}	
 		\begin{center}
 		\Large
 		\bf
 		충\hspace{15pt}북\hspace{15pt}대\hspace{15pt}학\hspace{15pt}교\hspace{15pt}대\hspace{15pt}학\hspace{15pt}원
 		\end{center}
 	\end{minipage}
-	\begin{minipage}[t][20mm][t]{\textwidth}
+	\begin{minipage}[t][10mm][t]{\textwidth}
         \Large 
 		\bf
 		\begin{center}
@@ -656,11 +656,11 @@
     \end{minipage}\\[0mm]
 
 	%\hfill 
-	\newpage
+	%\newpage
 	%\chapter*{}
 	%\pagestyle{empty}
-	%\newpage 
-	\pagestyle{plain}
+	\newpage 
+	%\pagestyle{plain}
 }
 
 %%
@@ -794,7 +794,7 @@
 
 \renewcommand\chapter{%
     \if@openright\cleardoublepage\else\clearpage\fi
-%   \thispagestyle{plain}%
+   %\thispagestyle{plain}%
     \global\@topnum\z@
     \@afterindentfalse
 %   \if@isKorean \parindent\z@ \else \fi % <-- 추가할지 여부 고민중
@@ -851,11 +851,12 @@
     {\centering \parindent\z@ \Large\bfseries #1\par}
     \vspace*{20\p@}
 }
-\renewcommand\section{\@startsection {section}{1}{\z@}%
+\renewcommand\section{\addtocontents{toc}{\protect\addvspace{10\p@}}
+									\@startsection {section}{1}{\z@}%
                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
                                    {2.3ex \@plus.2ex}%
                                    {\normalfont\fontsize{12}{20.5}\bfseries}}
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+\renewcommand\subsection{\addtocontents{toc}{\protect\addvspace{10\p@}}\@startsection{subsection}{2}{\z@}%
                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
                                      {1.5ex \@plus .2ex}%
                                      {\normalfont\fontsize{11}{20.5}\bfseries}}
@@ -908,6 +909,7 @@
 %%
 %% \listoftables 재정의 - report 클래스로부터 복사하여 일부 수정
 %%
+
 \renewcommand\listoftables{%
     \if@twocolumn
         \@restonecoltrue\onecolumn
@@ -941,6 +943,7 @@
     \setcounter{page}{\value{pagemarker}}         % pagemarker에 저장된 값으로
     \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{\listfigurename}% 목차(TOC)에 추가
     \@starttoc{lof}%
+\addcontentsline{lof}{chapter}{\listfigurename}
     \if@restonecol\twocolumn\fi
     \newpage 
 \setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장
