@@ -79,12 +79,11 @@ In this paper, we propose a method for estimatingthepose of the camera using a r
 LiDAR는 센서로 부터 송출된 적외선의 Time-of-Flight를 응용하여 2차원 혹은 3차원 환경에 대한 거리 정보를 취득하는 능동형 센서이다. 충분히 강한 출력의 광원이 사용된다면 조명에 강인하고 일정한 검출 시간과 성능을 보장받을 수 있는 장점이 있으나 고정밀기계장치를 이용하여 충격에 민감하고 가격이 고가이다. 또한 점군으로 표현된 환경에 대한 거리정보는 취득 영역의 부피에 비해 비교적 적은 수 이고, 신호 세기 등 거리 이외의 정보는 취급이 어렵거나 사용이 제한적이기 때문에 데이터의 정보량은 비교적 적다고 할 수 있다. 카메라는 외부의 광원에서 발해져 직접 투사되거나 주변 물체에 반사되어 들어온 가시광선 근방의 전자기파에 대한 정보를 취득하는 감응형 센서이다. 주변 광원의 상태에 따라 사용에 제약을 받을 수 있으나 저렴한 가격에 고밀도의 환경정보를 취득할 수 있는 장점이 있다. 연산에 사용되는 로봇의 컴퓨터 혹은 연구용 워크스테이션의 성능이 높아지면서 보다 방대한 자료를 빠르게 처리할 수 있게 되어, 최근에는 저가에 풍부한 환경 정보를 취득할 수 있는 카메라를 이용하는 SLAM기술의 연구가 각광을 받고 있다. 또한 두 센서의 장점을 살려 융합 시스템을 구축, 활용하는 방법도 제시되어 있다\cite{Newman2006}.\\
 %{카메라를 이용하는 SLAM 연구}
 단안카메라를 이용하여 SLAM문제를 해결하고자 하는 초기 시도는 Lowe의 SIFT를 이용한 SLAM\cite{Se2005}과 particle filter를 이용한 SLAM\cite{Eade2006}, extended kalman filter를 기반으로 단안 카메라를 이용한 실시간 SLAM방법\cite{Davison2007}이 있다. 이 후 이동 로봇 분야에서의 위치 추정 및 지도 작성 문제에 대해 카메라를 이용한 접근의 유효성이 입증 된 이후 후속 연구가 활발하게 연구가 진행되고 있다. 컴퓨터 비전 분야에서는 카메라를 이용하여 주어진 환경의 3차원 정보를 재구성하는 Structure from motion(SfM)이라는 문제가 로봇에서 통용되는 SLAM과 유사하다. 전통적인 SfM은 사전에 취득한 데이터에 대해 Bundle Adjustment\cite{Triggs2000}기법을 사용하여 연산 시간에 무관하계 고정밀의 결과를 얻는 것에 초점을 맞추고 있다. 근래들어 증강현실 등 실시간 처리 방법의 필요성이 대두됨에 따라 병렬연산과 Local Bundle Adjustment기법을 이용하여 실시간 SfM문제를 해결하는 방법\cite{Klein2007}이 제안되면서 카메라를 이용한 위치 인식 및 지도 작성에 대한 연구의 다른 접근 방식이 정립되었다. 이에 따라 로봇 분야에서 전통적으로 사용되던 Recursive filtering방식과 컴퓨터 비전 분야에서 사용되던 graph optimization방식에 대한 분석\cite{Strasdat2010}이 이루어졌고 연산 속도, 정확도, scalability등을 종합적으로 고려하였을 때 후자의 접근이 보다 바람직함을 제시하였다. 최신의 연구에서는 향상된 컴퓨터 성능과 General Purpose Graphic Processing Unit(GPGPU)의 사용이 용이해지면서 영상에서 특징을 명시적으로 추출하지 않고, 영상의 세기 정보를 직접 이용하여 카메라를 이용하여 실시간으로 SLAM을 해결하는 방법들이 제안되었다\cite{Forster2014b,Engel2014}.\\
-SLAM에서는 정밀한 지도 작성 및 위치 추정과 더불어 동적으로 변화하는 환경에 강인한 시스템을 구성하는 것 또한 중요한 문제로 여겨져 왔다. 일부에서는 생물해부학적 지식을 활용하여 설치류의 공간 지각 시스템을 모방하여 통계학적 추정을 기반으로 하는 기존의 것과 완전히 구별되는 시스템을 제안하여 동적인 환경 변화에 대해 대처하고자 하는 시도가 있었다\cite{Milford2008}. 근래의 연구에서는 환경 변화에 대처하기 위해 기존의 SLAM시스템에 장소 인식 방법을 이용하여 성능을 보완하는 형태로 연구가 진행되어 왔다. 특징의 복잡도가 높지 않은 저 수준의 시각 특징으로 Chow-liu tree구조의 Bag-of-words를 구성하여 장소 인식을 수행하는 방법\cite{Cummins2011}이 정확도와 속도에서 우수한 성능을 보이고 있어 많은 후속 연구들이 이에 기반을 두고 있다. Loop closure 검출을 위해 장면이라는 고수준의 특징을 사용하여 반경 1000km수준의 대규모 환경, 운행 기간 1년 이상의 장기 구동, 눈, 비 등의 기후 변화에도 강인하게 SLAM 문제에 대처할 수 있는 연구도 진행되었다\cite{Milford2012}.
+SLAM에서는 정밀한 지도 작성 및 위치 추정과 더불어 동적으로 변화하는 환경에 강인한 시스템을 구성하는 것 또한 중요한 문제로 여겨져 왔다. 일부에서는 생물해부학적 지식을 활용하여 설치류의 공간 지각 시스템을 모방하여 통계학적 추정을 기반으로 하는 기존의 것과 완전히 구별되는 시스템을 제안하여 동적인 환경 변화에 대해 대처하고자 하는 시도가 있었다\cite{Milford2008}. 근래의 연구에서는 환경 변화에 대처하기 위해 기존의 SLAM시스템에 장소 인식 방법을 이용하여 성능을 보완하는 형태로 연구가 진행되어 왔다. 특징의 복잡도가 높지 않은 저 수준의 시각 특징으로 Chow-liu tree구조의 Bag-of-words를 구성하여 장소 인식을 수행하는 방법\cite{Cummins2011}이 정확도와 속도에서 우수한 성능을 보이고 있어 많은 후속 연구들이 이에 기반을 두고 있다. Loop closure 검출을 위해 장면이라는 고수준의 특징을 사용하여 반경 1000km수준의 대규모 환경, 운행 기간 1년 이상의 장기 구동, 눈, 비 등의 기후 변화에도 강인하게 SLAM 문제에 대처할 수 있는 연구도 진행되었다\cite{Milford2012}.\\
 %{SLAM에서 고차원 특징 추출 시도 사례}
+점 특징 기반의 SLAM이 가지는 한계를 타파하기 위해 다른 형태의 시각 특징을 이용하는 접근도 연구되고 있다.\cite{Moreno2013} Lu의 연구에서는 기존의 점 특징과 함께 선분, 직선, 평면, 소실점 등을 그래프로 구성하여 추가된 기하 정보를 이용하여 정밀한 위치 추정을 가능케 하였다\cite{Lu2015}.
 
-\cite{Zhang2015}%Building a 3-D line-based map using stereo SLAM
-\cite{Moreno2013}%SLAM++
-\cite{Lu2014c}%ICRA2014
+
 \cite{Li2014}%optical flow, plane
 
 %{제안}
@@ -120,12 +119,13 @@ SLAM에서는 정밀한 지도 작성 및 위치 추정과 더불어 동적으�
 \cite{Kaess2007}%iSAM
 \cite{Kaess2011}%iSAM
 
-%\begin{figure}[!ht]
-%  \centering
-%	\includegraphics[width=360px]{img/BroadwayPlayers_01.jpg}
-%  \caption{A picture of the same gull looking the other way!}
-%\end{figure}
-
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/BroadwayPlayers_01.jpg}
+  \caption{A picture of the same gull looking the other way!}
+\label{dldl}
+\end{figure}
+\ref{dldl}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
