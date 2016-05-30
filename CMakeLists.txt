@@ -4,7 +4,7 @@ set(PDFLATEX COMPILER pdflatex)
  add_latex_document(MasterThesis.tex
                     BIBFILES ThesisBibTeX.bib
 #                    [INPUTS <input_tex_files>]
-                    IMAGE_DIRS img
+#                    IMAGE_DIRS img
 #                    [IMAGES] <image_files>
 #                    [CONFIGURE] <tex_files>
 #                    [DEPENDS] <tex_files>

@@ -55,12 +55,12 @@
 \RequirePackage{ifthen}       % 추가 패키지 설정
 
 
-
 %%%% Hangul-ucs preamble.......
 \RequirePackage[nonfrench]{dhucs}
 \RequirePackage[default]{dhucs-interword}
 \RequirePackage{ifpdf}
 \RequirePackage{xstring}
+\RequirePackage{xcolor}
 \ifpdf % pdftex
   \pdfmapfile{+unttf-pdftex-dhucs.map} % default fonts map
   \RequirePackage[pdftex]{graphicx}
