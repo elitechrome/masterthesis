@@ -944,7 +944,7 @@
     \setcounter{page}{\value{pagemarker}}         % pagemarker에 저장된 값으로
     \if@PDFdoc\phantomsection\fi\addcontentsline{toc}{chapter}{\listfigurename}% 목차(TOC)에 추가
     \@starttoc{lof}%
-\addcontentsline{lof}{chapter}{\listfigurename}
+%\addcontentsline{lof}{chapter}{\listfigurename}
     \if@restonecol\twocolumn\fi
     \newpage 
 \setcounter{pagemarker}{\value{page}}% pagemarker에 다시 저장

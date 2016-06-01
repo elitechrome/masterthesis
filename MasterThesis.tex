@@ -63,7 +63,7 @@
 \listoftables
 % 영문초록 (abstract)
 \begin{abstract}
-In this paper, we propose a method for estimatingthepose of the camera using a rectangle feature utilized for the  visual SLAM.  A warped rectangle featureas a quadrilateral in the image by the perspective transformation is reconstructed by the Coupled Line Camera algorithm. In order to fully reconstruct a rectangle in the real world coordinate, the distance between the features and the camera is needed. The distance in the real world coordinate can be measured by using a stereo camera. Using properties of the line camera, the physical size of the rectangle  feature can be induced from the distance. The correspondence between the quadrilateral in the image and the rectangle in the real world coordinate can restore the relative pose between the camera and the feature through obtaining the homography. In order to evaluate the performance, we analyzed the result of proposed method with its reference posein Gazebo robot simulator.
+In this paper, we propose a method for estimating the pose of the camera using a rectangle feature utilized for the  visual SLAM.  A warped rectangle feature as a quadrilateral in the image by the perspective transformation is reconstructed by the Coupled Line Camera algorithm. In order to fully reconstruct a rectangle in the real world coordinate, the distance between the features and the camera is needed. The distance in the real world coordinate can be measured by using a stereo camera. Using properties of the line camera, the physical size of the rectangle  feature can be induced from the distance. The correspondence between the quadrilateral in the image and the rectangle in the real world coordinate can restore the relative pose between the camera and the feature through obtaining the homography. In order to evaluate the performance, we analyzed the result of proposed method with its reference pose in Gazebo robot simulator.
 \end{abstract}
 
 % 위의 세 종류의 목차는 한꺼번에 다음 명령으로 생성할 수도 있습니다.
@@ -105,8 +105,8 @@ SLAM에서는 정적인 환경에서의 위치 추정 및 지도 작성의 정�
 \chapter{사각형 특징의 기하학적 성질을 이용한 스테레오 카메라의 자세 복원 방법}
 
 %\section{렌즈왜곡 모델}
-\section{자세 추정을 위한 사각형 복원 방법}
-\subsection{평면 Homography를 이용한 카메라의 자세 복원 방법}
+%\section{자세 추정을 위한 사각형 복원 방법}
+\section{평면 Homography를 이용한 카메라의 자세 복원 방법}
 
 종래의 방법으로는 복수의 영상 간 점 특징을 정합하여 자세를 추정한다. 2장의 이미지에 대한 카메라 기하 관계는 epipolar constraint로 표현되며 이를 이용하여 fundamental matrix 또는 essential matrix를 추정하고 두 영상에 대한 카메라 자세 변화를 얻는다. 3개의 이미지에 대해서는 trifocal tensor를 이용하여 카메라 기하관계가 표현된다. 각각의 방법에 대해서는 Nister의 5-point RANSAC 알고리즘\cite{Nister2005}과 Guerrero의 연구\cite{Guerrero2008}가 그 예시이다. 이미지와 카메라간의 n-view geometry에 대해서는 hartley의 저서\cite{Hartley2003}에 보다 상세하게 설명되어 있다.\\
 본 논문에서 집중 할 것은 1장의 이미지에 대한 카메라 기하 관계인 homography를 이용하여 카메라의 자세를 추정하는 것이다. Homography는 두 평면 사이의 변환을 표현하는 행렬로, 직사각 특징의 네 점이 한 평면 위에 있다는 가정을 두고 카메라의 자세를 복원한다. 이 접근에서는 2장 이상의 연속된 영상에서 5쌍 이상의 정합된 점을 필요로 하는 기존 방법에 비해 1장의 이미지에서 4개의 점 만으로 유일하게 카메라와 특징간의 상대 자세를 추정할 수 있다는 장점이 있다. \\
@@ -125,7 +125,7 @@ s\begin{bmatrix} u\\v\\1 \end{bmatrix} = \begin{bmatrix} f_{x} & s_{skew} & c_{x
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=240px]{img/planar_homography_cropped.pdf}
-  \caption{A picture of s same gull looking the other way!}
+  \caption{The configuration of planar homography with respect to corresponding points }
 \label{planar_homography}
 \end{figure}
 이 때 투영되는 대상이 어떤 평면 위의 점이라면 $Z=0$임을 이용하여 동차좌표계를 위에서 평면 homography 관계를 식\eqref{planar_homography}와 같이 선형방정식으로 표현할 수 있다.
@@ -143,7 +143,7 @@ R=\begin{bmatrix}r_1 && r_2 && r_1\times r_2\end{bmatrix}
 
 여기서 동차좌표계를 이용한 이와 같은 표현에서 스케일에 대한 정보는 알 수 없으므로 $rank(H)=8$이다. 따라서 두 평면 위의 서로 대응되는 점 쌍으로 평면 homography를 완전하게 추정하기 위해서는 적어도 4개의 쌍이 필요하다. 일반적으로는 카메라의 촬상면에 대응되는 점 만이 직접 측정이 가능하고 실세계의 대응점은 구하기 어려우므로 chessboard를 이용한 카메라 캘리브레이션을 수행할 때와 같이 이미 4개의 점에 대한 형태 정보를 알고 있는 특수한 경우가 아니면 정상적인 자세를 추정할 수 없다.
 
-\subsection{선분 카메라쌍 방법을 이용한 사각형 복원 방법}
+\section{선분 카메라쌍 방법을 이용한 사각형 복원 방법}
 본 논문에서는 영상 위의 4개의 점에 대응되는 실세계의 대응 점가질 수 있는 형태 중 직사각형일 경우 가지게 되는 기하적 성질을 이용하여 완전하게 카메라의 자세를 추정하는 방법에 대해 설명한다. 먼저 영상 위의 4개 점을 선분카메라쌍 알고리즘\cite{Lee2012,Lee2013}을 이용하여 원본 사각형의 종횡비를 복원한다. 이 알고리즘은 투영 변환의 불변성인 colinearity를 바탕으로 영상 위의 선분과 실제 선분간의 관계를 Figure \ref{linecamera}와 같은 가상의 선분 카메라 모델로 표현한다. 그러나 하나의 선분카메라만으로는 유일하게 투영 중심을 복원해낼 수 없다. 이에 직사각형을 구성하는 대각선 두 쌍에 대해 선분카메라 모델을 적용할 경우, Figure \ref{coupled_linecamera}와 같이 두 선분카메라의 실제 평면 상 직선의 교차점이 두 직선을 등분하는 점이며 두 선분카메라의 투영중심은 동일하다는 조건을 추가로 이용할 수 있다. 이 조건에 의해 투영변환의 불변성 중 하나인 cross ratio를 이용하여 유일하게 사각형의 종횡비와 그에 대응하는 투영 중심을 복원할 수 있다. Table \ref{CLC_algorithm}에 선분카메라쌍 알고리즘이 기술되어 있다. 복원한 종횡비를 토대로 영상 평면 위 사변형의 꼭지점에 대응되는 실세계 상에서 직사각형의 꼭지점의 좌표를 구성하고 평면 homography를 구해 이전 장의 방법을 이용하여 카메라의 위치와 자세를 추정한다. 이 때 추정되는 위치는 식 \ref{pc_clc}와 같다.
 \begin{equation}
 \label{pc_clc}
@@ -220,7 +220,7 @@ cos\theta_i = d\alpha_i
 
 \newpage
 
-\subsection{3차원 자세 추정을 위한 스테레오 카메라 기반의 선분카메라쌍 방법}
+\section{3차원 자세 추정을 위한 스테레오 카메라 기반의 선분카메라쌍 방법}
 단안 카메라에서 취득한 영상만으로는 3차원 공간 상 특징의 위치를 결정할 수 없다. 이는 투영변환에 의해 스케일에 대한 정보가 손실되기 때문이다. 상기한 선분카메라쌍 알고리즘 및 평면 homography를 이용한 사각형 기반 카메라 자세 추정 방법에서는 실제 크기 대신 중점과 각 꼭지점 간의 거리가 1인 사각형으로 가정한다. 이 경우 같은 장면에서 크기가 다른 복수의 사각형에 대한 위치 추정 결과는 모두 다른 스케일을 가지므로, 동일한 위치에서 촬영된 영상에서 추출한 위치임에도 불구하고 추정에 사용된 특징 별로 상이한 값을 보이게 된다. 이에 스테레오 카메라를 이용하여 특징의 3차원 공간 정보를 완전히 추정하고 한 영상 내부의 복수의 특징에서 추정한 카메라의 위치 및 자세 결과물을 효율적으로 사용하는 방법에 대해 서술한다. \\
 스테레오 카메라는 두 pinhole 카메라가 $X$축으로만 $b$만큼의 변위를 가지는 Figure \ref{stereo_triangulation}와 같은 단순한 구조를 가지는 경우로 가정한다. 이 경우 두 카메라에서 3차원상의 점 $P$에 대응하는 점 쌍$X_1=(u_1,v_1)$,$X_2=(u_2,v_2)$에 대해 식 \eqref{stereo}의 관계를 $P$의 위치를 확정할 수 있음을 알 수 있다.
 \begin{equation}
@@ -282,11 +282,10 @@ m = d \frac{l_0}{f\sin\theta_0 + l_0\cos\theta_0}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{사각형 특징을 이용한 Factor Graph 기반 Visual SLAM}
-\section{Factor Graph 구조의 SLAM}
+\section{SLAM을 위한 Factor Graph 표현 유도}
 복수의 사각형 특징 정보를 취합하여 특징지도 작성 및 위치 추정을 위하여 factor graph기반의 SLAM방법을 사용한다. Flitering 방법을 이용하는 접근과 다르게 이 방법에서는 로봇 또는 카메라의 현재 자세 만을 추정하는 것이 아니라 전체 경로를 추정한다. loop closure 문제를 별도로 다룰 필요 없이 구성한 factor graph를 최적화 하는 것으로 해결할 수 있어 보다 정확한 지도 작성이 가능하게 한다. 또한 희소 선형대수 기법을 응용하여 전통적인 kalman filter기반의 SLAM을 대체할 수 있는 속도 개선과 증분형 계산이 가능한 알고리즘을 제안하고 있어 목적에 따라 같은 시스템으로 batch 처리, 실시간 처리를 선택하며 성능을 유지할 수 있다\cite{Dellaert2006, Kaess2007, Kaess2011}.\\
-종래에 SLAM문제의 그래프 표현은 belief network라는 형태가 많이 사용되었다. belief network는 어떤 확률 변수 집합에 대해 조건부 독립 구조를 시각적으로 나타낸 것이다. 그래프를 구성하는 각 노드들은 앞 노드에만 직접적으로 의존하는 형태로, 방향성이 있고 비 순환성인 구조로 표현된다. Figure \ref{belief_network}에 SLAM 문제를 belief network로 표현한 예시가 주어져 있다. Factor graph는 추정하고자 하는 확률밀도함수를 인수분해한 형태를 표현하는 무향성 양분 그래프(bipartite graph)의 일종이다. 이 형태는 marginal distribution의 효율적인 계산을 위해 주로 응용되는 형태이다. 
+종래에 SLAM문제의 그래프 표현은 belief network라는 형태가 많이 사용되었다. belief network는 어떤 확률 변수 집합에 대해 조건부 독립 구조를 시각적으로 나타낸 것이다. 그래프를 구성하는 각 노드들은 앞 노드에만 직접적으로 의존하는 형태로, 방향성이 있고 비 순환성인 구조로 표현된다. Figure \ref{belief_network}에 SLAM 문제를 belief network로 표현한 예시가 주어져 있다. Factor graph는 추정하고자 하는 확률밀도함수를 인수분해한 형태를 표현하는 무향성 양분 그래프(bipartite graph)의 일종이다. 이 형태는 marginal distribution의 효율적인 계산을 위해 주로 응용되는 형태이다. \\
 $k$번째 로봇의 상태변수를 $x_k\in X \ (k\in{0,1,2,\dots,i})$, $m$번째 표식변수를 $l_m\in L \ (m\in{0,1,2,\dots,N})$, $n$번째 측정변수를 $z_n\in Z \ (n\in{0,1,2,\dots,j})$이라 하자. 
-
 \newpage
 \begin{figure}[!ht]
   \centering
@@ -308,26 +307,197 @@ Belief network구조의 Figure \ref{belief_network}에 해당되는 결합확률
 \label{belief_joint_probaility}
 P(X, L, Z)=P(x_0)\prod^i_{k=1}P(x_k|x_{k-1}, u_k)\prod^j_{n=1}P(z_n|x_{kn}, l_{mn})
 \end{equation}
-$P()$
+통상적으로 $P(x_k|x_{k-1}, u_k)$는 로봇의 모션 모델, $P(z_n|x_{kn}, l_{mn})$는 센서의 측정 모델이라 부른다.  여기서는 Data association문제를 고려하지 않고 $z_n$은 이미 알려져 있는 변수로 가정한다. 모델이 가우시안 분포를 따른다고 가정하면 로봇의 모션 모델을 식 \eqref{motion_model}과 같이 표현할 수 있다.
+\begin{equation}
+\label{motion_model}
+x_k = f_i(x_{k-1}, u_k) + \omega_k,\ P(x_k|x_{k-1}, u_k)\propto \exp-\frac{1}{2}||f_k(x_{k-1}, u_k)-x_k||^2_{\Lambda_k}
+\end{equation}
+마찬가지로 센서 관측 모델 또한 가우시안으로 가정 할 경우 식 \eqref{measurement_model}와 같이 표현할 수 있다.
+\begin{equation}
+\label{measurement_model}
+z_n = h_n(x_{kn}, l_{mn}) + \nu_k,\ P(z_n|x_{kn}, l_{mn})\propto \exp-\frac{1}{2}||h_n(x_{kn}, l_{mn})-z_n||^2_{\Sigma_n}
+\end{equation}
+이 때  $||x||^2_\Sigma=x^T\Sigma^{-1} x$는 공분산 $\Sigma$에 대한 마할라노비스 거리를 말한다. \\
+Factor graph는 위의 belief network모델에서 자연스럽게 유도할 수 있다. 측정변수 $z$는 알려진 값이므로  표식과 로봇의 상태변수를 연결하는 결합확률 factor의 매개변수로 간주할 수 있다. 제어 입력 $u$또한 로봇 상태변수 간의 factor의 매개변수로 간주하면 Figure \ref{factorgraph_diagram}과 같이 나타낼 수 있다. 이렇게 구성된 factor graph는 알려지지 않은 로봇의 상태변수와 표식에 대응하는 노드와 $z$ 또는 $u$를 매개변수로 가지는 두 가지 종류의 factor를 가진다. 이를 일반적인 factor graph형태로 표현하면 모든 알려지지 않은 변수$\Theta$에 대한 결합 확률은 식 \eqref{factor_joint_probability}와 같다.
+\begin{equation}
+\label{factor_joint_probability}
+P(\Theta) \propto \prod^i\phi_i(\theta_i)\prod^j_{\{i,j\}, i< j}\psi_{ij}(\theta_i, \theta_j)
+\end{equation}
+이 때 SLAM문제에서는 $\psi_{ij}(\theta_i, \theta_j)$는 두 개의 알려지지 않은 추정치$\theta_i,\ \theta_j$에 대해 센서 관측치 $z$나 제어입력 $u$에 관한 정보를, $\phi_i(\theta_i)$는 $\theta_i$에 대한 초기치에 대한 정보를 내포하고 있다. 정리하면 식 \eqref{factor_prop}와 같다.
+\begin{equation}\label{factor_prop}
+\begin{split}
+\phi_0(x_0)& \propto P(x_0) \\
+\psi_{(k-1)k}(x_{k-1}, x+k)& \propto P(x_k|x_{k-1}, u_k) \\
+\psi_{knmn}(x_{kn}, l_{mn})& \propto P(z_n|x_{kn}, l_{mn})
+\end{split}
+\end{equation}
+이와 같이 알려져 있는 변수와 이미 알려진 값으로 나누어 factor graph를 구성하여 SLAM문제를 정의할 수 있음을 보였다.
 
+\section{최소자승법을 이용한 Factor Graph기반 위치 추정 및 지도 작성}
+이번 장에서는 구성한 factor graph를 이용하여 로봇의 상태변수와 표식들의 최적 추정치를 찾기 위한 방법을 설명한다.  Filtering방식에서는 현재 로봇의 상태와 지도를 최대우도추정 또는 최소제곱추정을 하는 것에 비해 여기서는 전체 로봇 상태변수 $X$, 지도 $L$, 주어진 모든 측정값 $Z$, 제어입력 $U$을 이용하여 최대사후확률 추정을 한다. 이전에 서술한대로 이미 알고있는 측정값과 제어입력은 factor의 매개변수로 포함되고 추정해야 할 미지변수의 집합$X,\ L$을 한 데 모아 $\Theta:=[X\ L]^T$로 둔다. 이 가정을 토대로 결합확률 $P(X,\ L,\ Z)$을 최대로 하는 $\Theta^*$를 식 \eqref{argmax_theta}로 나타낸다.
+\begin{equation}
+\label{argmax_theta}
+\begin{split}
+\Theta^*&:=\arg\max_\Theta P(X,\ L|Z)\\
+&=\arg\max_\Theta P(X,\ L,\ Z)\\
+&=\arg\min_\Theta -\log P(X,\ L,\ Z)
+\end{split}
+\end{equation}
+
+초기 자세$x_0$를 상수로 가정하고 로봇의 모션 모델과 센서의 측정모델을 식 \eqref{motion_model}, \eqref{measurement_model}을 사용할 경우 비선형 최소자승 문제로 식 \eqref{nonlinearLS}을 유도할 수 있다.
+\begin{equation}
+\label{nonlinearLS}
+\Theta^*:=\arg\min_\Theta \bigg\{ \sum_{k=1}^i ||f_k(x_{k-1}, u_k)-x_k||^2_{\Lambda_k} + \sum_{n=1}^j ||h_n(x_{kn}, l_{mn})-z_n||^2_{\Sigma_n}\bigg\}
+\end{equation}
+
+컴퓨터를 이용하여 비선형 최소자승 문제를 풀기 위해서는 식 \eqref{nonlinearLS}을 선형 최소자승 문제로 환원하여 접근하여야만 한다. 
+주어진 모션 모델을 truncated taylor expansion을 이용해 선형화 하면 아래와 같다.
+\begin{equation}
+\label{motion_model_linear}
+f_k(x_{k-1}, u_k)-x_k\approx \{ f_k(x^0_{k-1}, u_k) +F_k^{k-1}\delta x_{k-1} \}-\{ x_k^0 + \delta x_k \}
+\end{equation}
+마찬가지로 주어진 센서 관측 모델을 truncated taylor expansion을 이용해 선형화 하면 아래와 같다.
+\begin{equation}
+\label{measurement_model_linear}
+h_n(x_{kn}, l_{mn})-z_n\approx \ \{ h_n(x^0_{kn}, l^0_{mn}) + H^{kn}_n \delta x_{kn} + J_n^{mn}\delta l_{mn} \}-z_n
+\end{equation}
+이 때 $F_k^{k-1}$, $H_n^{kn}$, $J_n^{mn}$는 각각 로봇 상태변수에 대한 로봇 모션 모델의 자코비안 행렬, 센서 관측 모델의 자코비안 행렬, 표식에 대한 센서 관측 모델의 자코비안 행렬이다.
+\begin{equation}
+\label{model_jacobian}
+\begin{split}
+F_k^{k-1}&=\frac{\partial f_k(x_{k-1}, u_k)}{\partial x_{k-1}} \bigg|_{x^0_{k-1}}\qquad,\\
+H_n^{kn}&=\frac{\partial h_n(x_{kn}, l_{mn})}{\partial x_{kn}} \bigg|_{(x^0_{kn},l^0_{mn})}\ ,\\
+J_n^{mn}&=\frac{\partial h_n(x_{kn}, l_{mn})}{\partial l_{mn}} \bigg|_{(x^0_{kn},l^0_{mn})}
+\end{split}
+\end{equation}
+위에서 표기 상 편의를 위해 사용하였던 마할라노비스 거리 표기를 일반적인 유클리디언 거리 표기로 환원하기 위해 아래의 식을 이용한다.
+\begin{equation}
+\label{mahalanobis_to_euclidean}
+|| x ||^2_\Sigma = (\Sigma^{-T/2}x)^T(\Sigma^{-T/2}x) = || \Sigma^{-T/2}x ||^2_2
+\end{equation}
+선형화한 모션 모델과 관측 모델을 이용하여 식 \eqref{nonlinearLS}를 선형 최소자승 문제로 근사한 식은 아래와 같다.
+\begin{equation}
+\label{linearizedLS}
+\begin{split}
+\delta^*:=\arg\min_\delta \bigg\{& \sum_{k=1}^i || F_k^{k-1}\delta x_{k-1} - I\delta x_k - (x_k^0 - f_k(x^0_{k-1}, u_k) )  ||^2_{\Lambda_k} \\
+&+ \sum_{n=1}^j || H^{kn}_n \delta x_{kn} + J_n^{mn}\delta l_{mn} - (z_n - h_n(x^0_{kn}, l^0_{mn})) ||^2_{\Sigma_n}\bigg\}
+\end{split}
+\end{equation}
+식 \eqref{linearizedLS}에서 $\{x_k^0 - f_k(x^0_{k-1}, u_k\}$, $\{z_n - h_n(x^0_{kn}, l^0_{mn})) \}$는 각각 로봇 제어 입력 또는 odometry의 예측 오차, 센서 측정치의 예측 오차이며 통상적으로 시간에 따라 변하지 않는 상수이다. 이에 식 \eqref{linearizedLS}를 $\delta$에 관한 항들과 상수항들을 나누어 각각 행렬, 벡터 형태로 묶으면 아래와 같이 일반적인 선형 최소자승 문제의 형태로 정리할 수 있다.
+\begin{equation}
+\label{linearizedLS_simple}
+\delta^*:=\arg\min_\delta || A\delta - b ||^2_2
+\end{equation}
+이 때 $A$의 블록 구조는 factor graph의 인접행렬과 완전히 동일하며, 각 변수 간의 상관관계가 대부분 존재하는 특수한 경우가 아니라면 $A$는 희소행렬의 형태를 가진다.
+$A \in \mathbf{R}^{m\times n}$ 인 full-rank 행렬이라 하면 선형 최소자승법의 유일해는 \eqref{linearizedLS_normal}와 같다.
+\begin{equation}
+\label{linearizedLS_normal}
+A^T A\delta^*= A^T b
+\end{equation}
+ 
+희소행렬의 성질을 이용하여 이를 효율적으로 풀기 위해 $A^T A$가 대칭 양행렬임을 이용하여 Cholesky factorization을 수행한다.
+\begin{equation}
+\label{cholesky}
+A^T A = R^T R, \emph{where}\ R\ \emph{is upper-triangular martix}
+\end{equation}
+위와 같이 factorization이 수행 되어 있는 경우에는 $R^T y=A^T b$를 구한 뒤 $R\delta^*=y$로 간단하게 최소자승법의 해를 구할 수 있다. 
+
+%\section{Factor Graph의 표식으로서 사각형 특징}
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{사각형 특징 추출(segmentation)}
+\chapter{영상 분할 방법을 이용한 사각형 특징 추출 방법}
+직사각형은 투영변환에 의해 영상에서 사변형의 형태로 나타나게 된다. 사변형은 선분 4개와 면으로 이루어진 도형이므로 생성적 관점에서 이를 검출하는 방법도 이와 관련되어 있다. 직선의 추출에 널리 이용되는 방법에는 Table \ref{hough_line}에 서술한 hough transform을 이용한 방법이 대표적이다. 이 방법은 카테시안 좌표계에서 표현되는 직선의 방정식 $y=ax+b$꼴을 변형하여 $\rho=x\cos\theta+y\sin\theta$와 같이 파라미터 기준 좌표계로 치환하고, 파라미터 좌표계 위에서의 한 점이 직선 하나에 대응하는 성질을 응용하여 카테시안 좌표계 위의 점들을 파라미터 공간으로 변환하며 생기는 정현파 형태의 함수를 이산화하여 모든 점에 대해 파라미터 공간에 대한 accumulator를 만든다. 만들어진 accumulator를 이용하여 일정 값이 넘는 점에 대해 카테시안 공간의 직선으로 추출한다.
+Canny edge 검출기등의 방법을 이용해서 영상의 edge정보를 추출한 뒤, 그 픽셀 값을 
+SLAM에 사용할 사각형 특징을 추출하기 위해 영상 분할 기술을 바탕으로 접근한다. 
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=340px]{img/rect_hough01.png}
+  \caption{The configuration of simple stereo camera model}
+\label{rect_hough01}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=340px]{img/rect_hough02.png}
+  \caption{The configuration of simple stereo camera model}
+\label{rect_hough02}
+\end{figure}
+
+\newpage
+\begin{table}[!t] 
+\caption{Hough transform for line detection}
+\label{hough_line}
+\begin{tabular}{p{360pt}}
+\toprule[1.5pt]
+\textbf{Algorithm} Hough transform for line detection\\
+\hline
+
+\textbf{Input}			$B$-A binary edge image, $N$-thresholding level \\
+\textbf{Output}		$\{\chi=(\rho, \theta)\}$ - set of line parameters, $i=0,\ 1,\ ...,\ n$.
+\\
+
+\hline
+\begin{algorithmic}[1]
+\State Initialize accumulator array $A(i, j)$ to zeros
+\For{ all elements of the binary edge image $B(x,y)$ }
+	\If{ $B(x,y)$ == 1 }
+		\For { all elements of the accumulator array $A(\rho,\theta)$ }
+			\State Increase the value of corresponding cell associated with $\rho=x\cos\theta+y\sin\theta$.
+		\EndFor
+	\EndIf
+\EndFor
+\State Find all local maxima in accumulator array $A$ and store in $\chi$
+\end{algorithmic}\\
+\toprule[1.5pt]
+\end{tabular}
+\end{table}
+
+\begin{table}[!t] 
+\caption{Image thresholding based rectangle detection}
+\label{CLC_algorithm}
+\begin{tabular}{p{360pt}}
+\toprule[1.5pt]
+\textbf{Algorithm} Image thresholding based rectangle detection\\
+\hline
+
+\textbf{Input}			$I$-An image obtained by the camera, $N$-thresholding level \\
+\textbf{Output}		$\{P_i\}$ - set of quadruple vertices of rectangles, $i=0,\ 1,\ ...,\ n$.
+\\
+
+\hline
+\begin{algorithmic}[1]
+\For{$i=0,1, ..., N$}
+	\State Do image thresholding for an image $I$
+	\State Find a set of contours $C=\{ c_0, c_1, ..., c_j \}$ using chain code method in an thresholded image.
+	\For {each contour $c_k$}
+		\State Find a set of connected line segments $L$ in the contour $c_k$ using split-and-merge method.
+		\If { the number of elements in $L$ = 4  and satisfying convexity}
+			
+		\EndIf
+	\EndFor
+	\EndFor
+\end{algorithmic}\\
+\toprule[1.5pt]
+\end{tabular}
+\end{table}
+\newpage
 %{시각 사각형 특징의 추출 사례}
-\cite{Zhang2003}%Extraction, matching and pose recovery based on dominant rectangular structures
-\cite{Han2009}%Bottom-up/top-down image parsing with attribute grammar
-\cite{Wildenauer2008}%Detection and matching of rectilinear structures
-\cite{Jung2004}%Rectangle detection based on a windowed hough transform
-\cite{Bazin2007}%Rectangle extraction in catadioptric images
-\cite{Bhaskar2010}%Combined spatial and transform domain analysis for rectangle detection
+%\cite{Zhang2003}%Extraction, matching and pose recovery based on dominant rectangular structures
+%\cite{Han2009}%Bottom-up/top-down image parsing with attribute grammar
+%\cite{Wildenauer2008}%Detection and matching of rectilinear structures
+%\cite{Jung2004}%Rectangle detection based on a windowed hough transform
+%\cite{Bazin2007}%Rectangle extraction in catadioptric images
+%\cite{Bhaskar2010}%Combined spatial and transform domain analysis for rectangle detection
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{사각형 특징을 위한 특징 기술자}
+일반적인 점 특징이 특징 기술자로 점 근방의 국소 패치를 가공하여 이용하는 것에 비해 사각형은 특징의 내부에 특징 기술자로서 사용될 수 있는 정보가 포함되어 있다. 특징 추출 시 사각형의 네 꼭지점은 같은 평면 상에 위치하는 것을 가정했으므로 점 특징 기반의 특징 기술자가 국부 패치 위의 영상은 같은 평면 상에 
 %CIELAB
 %luminance channel에서 hog
+%AB채널에서 컬러 히스토그램 매칭
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
