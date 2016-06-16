@@ -25,8 +25,8 @@
 % @command title 논문 제목
 % @options [default: (none)]
 % - korean: 한글제목 | english: 영문제목
-\title[korean]{선분 카메라쌍 알고리즘을 이용한 사각형 특징의 기하학적 자세 추정을 통한 Factor Graph 기반 비주얼 SLAM}
-\title[english]{Factor Graph based Visual SLAM with Geometric Pose Estimation of Rectangle Features using Coupled Line Camera Algorithm}
+\title[korean]{사각형 특징의 자세 추정을 통한 Factor Graph 기반 비주얼 SLAM}
+\title[english]{Factor Graph based Visual SLAM with Geometric Pose Estimation of a Rectangle Feature}
 
 \author[korean] {이}{재 민}
 \author[english]{Lee}{Jae-Min}
@@ -63,7 +63,11 @@
 \listoftables
 % 영문초록 (abstract)
 \begin{abstract}
-In this paper, we propose a method for estimating the pose of the camera using a rectangle feature utilized for the  visual SLAM.  A warped rectangle feature as a quadrilateral in the image by the perspective transformation is reconstructed by the Coupled Line Camera algorithm. In order to fully reconstruct a rectangle in the real world coordinate, the distance between the features and the camera is needed. The distance in the real world coordinate can be measured by using a stereo camera. Using properties of the line camera, the physical size of the rectangle  feature can be induced from the distance. The correspondence between the quadrilateral in the image and the rectangle in the real world coordinate can restore the relative pose between the camera and the feature through obtaining the homography. In order to evaluate the performance, we analyzed the result of proposed method with its reference pose in Gazebo robot simulator.
+%본 논문에서는 사각형 특징을 이용하여 위치와 자세를 복원하고 그를 factor graph형태로 구성하여 위치 인식과 특징 지도를 작성하는 방법을 제안하였다. 임의의 영상 평면 상 사변형이 입력으로 주어졌을 때 선분카메라쌍 알고리즘을 이용하여 종횡비를 알 수 없는 실세계의 직사각형을 해석적으로 복원하고, 그를 이용하여 homography를 구성하여 미리 알려진 카메라의 내부 파라미터 성분을 이용하여 정규화 한 뒤 카메라와 사각형 특징간의 상대 위치와 자세를 복원하였다. 이 때 사각형의 실제 크기를 알 수 없어 생기는 모호성을 해결하기 위해 카메라의 스테레오 구성을 가정한다. 스테레오 카메라가 x축에 대해 정렬되어있고 baseline값이 고정되어 있을 때 사각형과 카메라 사이의 정확한 위치와 자세를 추정하는 방법에 대해 제안하고 실험을 통해 특징 추출이 잘 이루어졌을 때 제안하는 위치 및 자세 추정의 성능이 준수함을 보였다. 추출된 특징과 상대 위치는 factor graph형태로 구성하고 negative log likelyhood 추정으로 접근하여 비선형 최소자승 문제를 정의한 뒤, 선형화를 통해 선형 최소자승 문제로 치환하여 cholesky factorization을 통해 해를 구한다. 이 때 사용할 수 있는 사각형 특징 추출 방법으로 선분 추출 기반의 방법과 영상 분할 기반의 방법을 제안하고 영상 분할 기반의 접근이 보다 유효함을 주장하였다. 제안한 전체 시스템은 카메라 기반의 위치 추정 시스템의 성능 분석용으로 널리 사용되는 KITTI Benchmark Suite위에서 실험이 수행되었다.\\
+In this paper, a visual simultaneous localization and mapping(SLAM) method which uses rectangle features is proposed in factor graph manner.
+Using the rectangle reconstruction method called coupled line camera algorithm which calculates analytically the aspect ratio of the rectangle from perspectively warped quadrilateral in the image plane, the plane homography is derived. The stereo configuration of the camera is proposed in order to solve the ambiguity arising from we not know the true size of the rectangle without additional information with corresponding modification of the coupled line camera algorithm to reconstruct the rectangle even the scale. A relative pose between rectangle in the real world plane and the camera is calculated for each quadrilateral from normalized homography with the intrinsic parameters of the camera which is constant in images captured by the identically same camera. the performance of this pose estimation method is showed in the simulated environment with ground truth value. 
+Extracted feature and the relative position are consisted factor graph form and formulated in a nonlinear least-squares problem of the negative log likelyhood estimation of the graph. this problem is derived to the linear least squares problem through the linearization and solved by cholesky factorization for efficient calculation. And rectangle feature extraction methods are proposed by the line extraction based method and image segmentation based methods that is more effective approach than line extraction based method. the experiment was performed for the entire rectangle feature based SLAM system on KITTI Benchmark Suite that is widely used for analysis of the performance of the camera-based pose estimation system.
+
 \end{abstract}
 
 % 위의 세 종류의 목차는 한꺼번에 다음 명령으로 생성할 수도 있습니다.
@@ -386,8 +390,8 @@ J_n^{mn}&=\frac{\partial h_n(x_{kn}, l_{mn})}{\partial l_{mn}} \bigg|_{(x^0_{kn}
 \begin{equation}
 \label{linearizedLS}
 \begin{split}
-\delta^*:=\arg\min_\delta \bigg\{& \sum_{k=1}^i || F_k^{k-1}\delta x_{k-1} - I\delta x_k - (x_k^0 - f_k(x^0_{k-1}, u_k) )  ||^2_{\Lambda_k} \\
-&+ \sum_{n=1}^j || H^{kn}_n \delta x_{kn} + J_n^{mn}\delta l_{mn} - (z_n - h_n(x^0_{kn}, l^0_{mn})) ||^2_{\Sigma_n}\bigg\}
+\delta^*:=\arg\min_\delta \bigg\{& \sum_{k=1}^i || F_k^{k-1}\delta x_{k-1} - I\delta x_k - (x_k^0 - f_k(x^0_{k-1}, u_k) )  ||^2_2 \\
+&+ \sum_{n=1}^j || H^{kn}_n \delta x_{kn} + J_n^{mn}\delta l_{mn} - (z_n - h_n(x^0_{kn}, l^0_{mn})) ||^2_2\bigg\}
 \end{split}
 \end{equation}
 식 \eqref{linearizedLS}에서 $\{x_k^0 - f_k(x^0_{k-1}, u_k\}$, $\{z_n - h_n(x^0_{kn}, l^0_{mn})) \}$는 각각 로봇 제어 입력 또는 odometry의 예측 오차, 센서 측정치의 예측 오차이며 통상적으로 시간에 따라 변하지 않는 상수이다. 이에 식 \eqref{linearizedLS}를 $\delta$에 관한 항들과 상수항들을 나누어 각각 행렬, 벡터 형태로 묶으면 아래와 같이 일반적인 선형 최소자승 문제의 형태로 정리할 수 있다.
@@ -507,13 +511,19 @@ Hough transform 방법을 적용하는 방법의 경우 원본 영상에서 바�
 \end{table}
 이 방법은 색상 채널에서의 이진화를 응용하여 사각형을 검출한다. 한 사변형의 내부 픽셀은 서로 유사한 시각적 형태와 색상을 가진다는 가정을 두고 이진화의 임계치를 정해진 단계씩 변경하며 영상을 처리한다. 이진화된 이미지는 chain code 방법을 통해 윤곽선이 추출되고, split-and-merge 방법\cite{Douglas1973}을 이용하여 윤곽선에서 선분을 검출한다. 검출된 선분이 4개이고 사변형으로서 가져야 할 성질을 만족하면 사변형으로 저장하는 것을 매 이진화 처리 이후 수행하여 가능한 사변형을 모두 검출한다. canny edge 검출기를 사용하여 edge 영상 위에서 선분을 추출하고 사각형을 확인하는 과정을 더해 이전 장에 서술한 직선 추출 기반 사각형 검출 방법을 일부 도입하여 성능의 향상을 꾀하였다.
 단계적 이진화를 이용한 영상 영역 분할 방법을 사용하여 사각형을 추출하였으므로 영상 이진화의 결과에 따라 영상 전체가 사각형으로 검출되거나 혹은 특징으로 사용할 수 없을 정도로 작은 크기의 사각형이 검출 될 수도 있다. 이는 SLAM의 특징으로 사용하기에는 문제가 있는 검출 결과이므로 필요에 따라 이러한 결과를 억제할 수 있는 방안을 검토해야 한다.
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/rect_seg.png}
+  \caption{An example of extracting quadrilateral in an outdoor scene }
+\label{segment_example}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\chapter{사각형 특징을 위한 특징 기술자}
 %일반적인 점 특징이 특징 기술자로 점 근방의 국소 패치를 가공하여 이용하는 것에 비해 사각형은 특징의 내부에 특징 기술자로서 사용될 수 있는 정보가 다수 포함되어 있다. 특징 추출 시 사각형의 네 꼭지점은 같은 평면 상에 위치하는 것을 가정했고 선분카메라쌍 방법을 이용하여 직사각형의 종횡비 또한 복원할 수 있다. 특징과 직접적인 연관이 있는 정보인지 구별하지 못하고 무조건 고정된 크기와 범위의 영역만을 사용하는 점 특징 기반의 특징 기술자와는 다르게 제안하고자 하는 사각형 특징을 위한 특징 기술자는 추출한 사각형의 내부가 모두 특징과 직접적으로 관련된 정보를 담고 있으며, 특징 기술자의 크기 또한 복원한 사각형의 크기나 정보량에 따라 가변적으로 조절할 수 있는 여지를 가지고 있다. \\
 %Figure \ref{envexample}로 예를 들면 직사각형으로 추출되는 시각 특징 중 포스터, 간판, 교통 표지판, 게시판 등은 사각형 내부에 그래디언트 정보가 위치별로 다양하게 분포되어 있어 특징 기술자로서 많은 정보를 가질 수 있다. 그러나 건물 외벽, 타일, 창문, 빈 종이 등은 사각형 내부가 일정한 패턴으로 이루어져있어 상대적으로 위치에 대한 그래디언트 변화가 적다. 이에 이들을 같은 구조의 기술자로 구분하기 위해 색상정보와 그래디언트 정보를 융합한 특징 기술자를 제안한다.\\
-%\section{CIELAB 색공간 기반 색상 히스토그램 매칭}
+%CIELAB
 %luminance channel에서 hog
 %AB채널에서 컬러 히스토그램 매칭
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -521,11 +531,143 @@ Hough transform 방법을 적용하는 방법의 경우 원본 영상에서 바�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{실험결과}
 \section{선분카메라쌍 기반의 자세 추정 성능 실험}
-%\section{사각형 특징 기반 factor graph SLAM 성능 실험}
-%\subsection{복도 환경 실험}
-%\subsection{교내 옥외 환경 실험}
-\section{KITTI Dataset 실험}
-GPS, ORB-SLAM, libviso2, MFG
+이 장에서는 선분카메라쌍을 이용하여 사각형 특징으로부터 카메라의 상대 자세를 복원하는 방법의 정량적인 성능을 분석한다. 유효한 기준치를 얻기 위해 Gazebo 시뮬레이터를 이용하여 사각형과 카메라를 묘사하고 실험을 수행하였다. 시뮬레이터 환경에서는 카메라가 전역 중심 좌표계를 기준으로 경위도식 움직임을 할 수 있도록 구성되어 있다. 실험에 사용한 카메라는 640*480의 해상도와 100도의 화각을 가지고 있고 baseline이 120mm인 스테레오 카메라이다. 촬영하는 사각형은 가로 210mm, 세로 297mm의 크기를 가지고 있고, 사각형은 전역 기준 좌표계의 xy평면 위에서 움직인다. 시뮬레이터의 구성은 figure \ref{gazebo}에서 확인할 수 있다.
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/gazebo.png}
+  \caption{The configuration of the camera and the rectangle feature for simulation }
+\label{gazebo}
+\end{figure}
+ 이에 선분카메라쌍 알고리즘을 통해 사각형 특징과 카메라간의 상대 위치 추정을 할 때 오차를 분석하기 위해 두 가지 실험을 구성하였다. 첫 번째 실험은 회전에 대한 성능을 분석하기 위해 경위대의 위도와 거리를 각각 0.7 rad, 1 m로 고정하고 경도를 0.4 rad부터 0.1 rad씩 6 rad까지 회전하는 실험을 구성하였다. Figure \ref{pose_yz}, \ref{pose_xy}, \ref{pose_zx}에 위 실험에서 선분카메라쌍 방법으로 구한 상대 위치와 ground truth를 공간상에 표현하고 x, y, z축을 기준으로 투영해서 보여주고 있다. Figure \ref{X_ang}, \ref{Y_ang}, \ref{Z_ang}에서는 회전 변화에 대한 두 값의 차이를 정량적으로 분석하기 위해 경위도의 변화에 따른 추정값과 ground truth를 비교하고 있다. 이 때 선분카메라쌍 방밥을 이용한 추정치가 $\frac{n\pi}{2}( n=1,2,3,\dots)$근방에서 계산되지 않은 것을 볼 수 있다. 이는 선분카메라쌍 알고리즘의 입력이 사다리꼴일 경우(사변형을 이루는 두 선분이 평행인 경우) 발생하는 문제로, 이미지 평면은 카메라의 픽셀에 맞추어 양자화되어 실제로 평행하지 않은 투영 사변형도 평행한 것으로 간주되어 위와 같은 문제가 발생한다. Figure \ref{RMS_ang}에서는 회전 변화에 대한 추정치의 RMS오차를 보여준다. 오차는 모든 실험 결과에 대해 0.05rad이하로 발생하였으며 불연속점 근방에서 비교적 큰 오차를 보이거나 아주 작은 오차를 보이는 것을 확인할 수 있었다. 이러한 오차 양상의 원인을 분석해보기 위해 Figure \ref{ca_ang}에서는 선분카메라쌍 기반 사각형 복원 방법의 결과물인 사각형 종횡비 복원 값을 회전 변환에 대해 출력하고 있다. 위아래를 구분할 수 없는 직사각형은 세로가 긴 형태 또는 가로가 긴 형태를 서로 구분할 수 없어 종횡비는 $\frac{\pi}{2}$ 기준으로 대칭성을 가진다고 볼 수 있다. 이 실험에서도 직사각형의 형태만이 추출되므로 두 개의 종횡비가 추출될 수 있다. 실험 결과는 불연속점을 기준으로 종횡비의 값이 바뀌고 상대적으로 큰 오차를 보이고 있어 사각형 복원 성능이 자세 추출 성능에 중요한 영향을 미치고 있음을 확인할 수 있었다.
+ 두 번째 실험은 거리에 대한 성능을 분석하기 위해 두 물체 사이의 거리를 0.5 m부터 5.5 m까지 0.1 m씩 증가하며 자세추정 결과를 확인하였다. 위의 실험 분석과 유사하게 figure \ref{X_d}, \ref{Y_d}, \ref{Z_d}에서는 실제 사각형과 카메라 간의 상대 위치와 제안하는 방법을 이용하여 추정한 결과를 비교하였고 figure \ref{RMS_d}, \ref{ca_d}에서는 각각 거리에 따른 RMS오차와 사각형 복원 방법의 종횡비 추출 결과를 출력하였다. 실험 구간에서 추정한 종횡비가 약 0.04rad감소함에 따라 RMS 오차는 0.007m까지 증가하는 것을 확인 할 수 있다. \\
+이와 같은 결과에 따라 사각형 추출이 올바르게 이루어 질 경우 정밀하게 특징과 카메라간 상대 자세를 추정할 수 있음을 실험적으로 보였다.
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/pose_yz.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and YZ-plane }
+\label{pose_yz}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/pose_yx.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and XY-plane }
+\label{pose_xy}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/pose_zx.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and XZ-plane }
+\label{pose_zx}
+\end{figure}
+
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/X_ang.png}
+  \caption{The result of the proposed method and reference pose with respect to longitudinal angle and X-axis }
+\label{X_ang}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/Y_ang.png}
+  \caption{The result of the proposed method and reference pose with respect to longitudinal angle and Y-axis }
+\label{Y_ang}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/Z_ang.png}
+  \caption{The result of the proposed method and reference pose with respect to longitudinal angle and Z-axis }
+\label{Z_ang}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/RMS_ang.png}
+  \caption{The square root error of the proposed pose estimation method with respect to longitudinal angle}
+\label{RMS_ang}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/ca_ang.png}
+  \caption{The result of coupled line camera algorithm with respect to longitudinal angle }
+\label{ca_ang}
+\end{figure}
+\newpage
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/X_d.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and X-axis }
+\label{X_d}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/Y_d.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and Y-axis }
+\label{Y_d}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/Z_d.png}
+  \caption{The result of the proposed method and reference pose with respect to distance and Z-axis }
+\label{Z_d}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/RMS_d.png}
+  \caption{The square root error of the proposed pose estimation method with respect to distance}
+\label{RMS_d}
+\end{figure}
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=360px]{img/ca_d.png}
+  \caption{The result of coupled line camera algorithm with respect to distance }
+\label{ca_d}
+\end{figure}
+
+\clearpage
+
+\section{사각형 특징 기반 factor graph SLAM 성능 실험}
+\subsection{KITTI Dataset 실험}
+사각형 특징을 factor graph 기반의 SLAM으로 활용이 가능할 수 있는지 파악하기 위해 공개된 데이터를 이용하여 검증하였다. 데이터는 KITTI Benchmark Suite의 visual odometry 성능검증용 영상과 ground truth데이터 중 sequence07로 공개된 데이터를 사용하였다. 여기서 추출되는 주요 사각형 특징은  거울의 프레임, 창문, 간판과 같은 것으로, figure \ref{feature_kitti_01}, \ref{feature_kitti_02}, \ref{feature_kitti_03}에 소개되어 있다. KITTI Benchmark Suite에서 제공하는 영상은 0.54m의 baseline을 가지는 스테레오 카메라에서 취득한 영상으로 GPS/INS정보가 같이 동기되어 visual odometry 또는 visual SLAM에서 추정한 카메라의 이동경로를 ground truth와 비교하기 용이하다. 실험은 전체 영상이 아닌 시작 후 3미터 가량 회전하는 구간에 한해 수행하였다. Figure \ref{seq_07}에는 xz평면 상에서 실제 차량의 이동 궤적과 제안하는 방법이 추정한 궤적을 비교 한 것이고 figure \ref{seq07tl}는 0.5m 마다 이동 거리에 따른 위치 에러의 백분위를 표현한 그래프로 10\% 이내의 오차를 보여주었다. 
+%지도를 작성하는 특징의 수는  --개이고 각 영상에서 평균 --개의 특징이 검출되어 위치 인식 및 지도 작성에 사용되었다
+\clearpage
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=380px]{img/feature_kitti_01.png}
+  \caption{An example of rectangle feature in outdoor scene : The frame of mirror }
+\label{feature_kitti_01}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=380px]{img/feature_kitti_02.png}
+  \caption{An example of rectangle feature in outdoor scene : Windows }
+\label{feature_kitti_02}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=380px]{img/feature_kitti_03.png}
+  \caption{An example of rectangle feature in outdoor scene : Sign }
+\label{feature_kitti_03}
+\end{figure}
+
+\clearpage
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=380px]{img/seq_07.pdf}
+  \caption{The result of proposed factor graph slam in sequence 07 of KITTI dataset}
+\label{seq_07}
+\end{figure}
+
+\begin{figure}[!ht]
+ \centering
+	\includegraphics[width=360px]{img/seq07tl.pdf}
+  \caption{The proportional translation error between proposed factor graph slam and ground truth in sequence 07 of KITTI dataset}
+\label{seq07tl}
+\end{figure}
+
+%GPS, ORB-SLAM, libviso2, MFG
 %\section{사각형 특징 기술자 매칭 성능 실험}
 %\subsection{면 기반 매칭 방법과의 비교}
 %\subsection{키포인트 추출 기반 매칭 방법과의 비교}
@@ -534,7 +676,8 @@ GPS, ORB-SLAM, libviso2, MFG
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \chapter{결론 및 향후 연구}
-
+본 논문에서는 사각형 특징을 이용하여 위치와 자세를 복원하고 그를 factor graph형태로 구성하여 위치 인식과 특징 지도를 작성하는 방법을 제안하였다. 임의의 영상 평면 상 사변형이 입력으로 주어졌을 때 선분카메라쌍 알고리즘을 이용하여 종횡비를 알 수 없는 실세계의 직사각형을 해석적으로 복원하고, 그를 이용하여 homography를 구성하여 미리 알려진 카메라의 내부 파라미터 성분을 이용하여 정규화 한 뒤 카메라와 사각형 특징간의 상대 위치와 자세를 복원하였다. 이 때 사각형의 실제 크기를 알 수 없어 생기는 모호성을 해결하기 위해 카메라의 스테레오 구성을 가정한다. 스테레오 카메라가 x축에 대해 정렬되어있고 baseline값이 고정되어 있을 때 사각형과 카메라 사이의 정확한 위치와 자세를 추정하는 방법에 대해 제안하고 실험을 통해 특징 추출이 잘 이루어졌을 때 제안하는 위치 및 자세 추정의 성능이 준수함을 보였다. 추출된 특징과 상대 위치는 factor graph형태로 구성하고 negative log likelyhood 추정으로 접근하여 비선형 최소자승 문제를 정의한 뒤, 선형화를 통해 선형 최소자승 문제로 치환하여 cholesky factorization을 통해 해를 구한다. 이 때 사용할 수 있는 사각형 특징 추출 방법으로 선분 추출 기반의 방법과 영상 분할 기반의 방법을 제안하고 영상 분할 기반의 접근이 보다 유효함을 주장하였다. 제안한 전체 시스템은 카메라 기반의 위치 추정 시스템의 성능 분석용으로 널리 사용되는 KITTI Benchmark Suite위에서 실험이 수행되었다.\\
+이 연구에서 사용한 특징 추출 방법은 영상 분할 방법을 기반으로 하여 조명의 변화에 따른 음영의 변화에 민감하여 복수의 유사한 사각형이나 실제 사각형이 아닌 그림자에 의한 형상을 추출하는 등의 문제가 발생할 수 있다. 향후 연구에서는 직사각형이 투영변환에 의해 왜곡되어 사변형으로 나타날 때 두 개 이하의 소실점과 반드시 연관이 있음을 이용하여, 소실점 추출과 선분 추출 방법을 융합하여 특징 검출 성능을 높이고자 한다. 또한 사각형 특징의 우수한 내부 정보를 효과적으로 부호화하는 특징 기술자에 관한 연구와 대규모의 구동 환경에서 loop closure성능을 실험하여 사각형 기반 SLAM의 독립적인 성능과 기존 SLAM방법과의 융합 결과의 분석도 염두에 두고 있다.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
@@ -562,9 +705,8 @@ GPS, ORB-SLAM, libviso2, MFG
 
 \chapter*{감사의 글}
 
-감사의 글을 적으시면 되겠습니다.
-감사합니다.
-
+먼저 지능로봇연구실의 지도교수님이시며 연구에 대한 많은 동기를 부여해 주시고 학부, 석사기간 내내 다방면에서 도움을 주신 김곤우교수님께 감사드립니다. 학부 과정에서 가장 유익하였던 컴퓨터 구조 강의를 해 주시고, 본 논문의 지도교수를 대신 맡아 신경 써 주신 박찬식교수님, 제어에 대한 궁금증이 있을 때 찾아가면 흔쾌히 알려주시며 인생에 대해서도 조언을 주신 김영철교수님과 훌륭한 강의로 식견을 넓혀 주신 권오욱교수님, 김진훈교수님, 박태형교수님께 감사의 말씀 드립니다. 12회 현대 자율차 대회 준비로 같이 고생했던 CBNU-Clothoid팀 종언이형, 귀우형, 태수형, 준기형, 지문이형, 주영이형, 신수연씨, 산자부 공용차량 경진대회를 준비했던 우진이형, 상환씨, 범기씨, 전임팀장으로 제어시스템설계와 팀 운영 관련 많은 조언을 해주신 민경득박사님, 현재 13회 대회를 준비하며 고생하고있는 민이형, 준형씨, 지덕씨께 모두 감사의 말씀 드립니다.\\
+2012년부터 학부 연구생으로 충북대학교 지능로봇연구실에 들어와 약 5년간 교수님과 함께 연구실을 키워가며 같이 생활한 모든 랩 구성원에게 정말 감사하게 생각합니다. 학부/석사 과정 중 경제적으로 굉장히 어려웠을 때 많은 힘이 되어 주고 3년간 거의 모든 연구실의 행정 처리를 도맡아 하시며 고생하신 창섭이형이 없었으면 석사과정 졸업이 불가능했을지도 모르겠습니다. 지금 2학년 과정에 계신 도형이형, 동규형, 은성이형, 성진이형, 1학년 과정에 계신 중선이형, 현수형께는 나이 어린 놈이  예의 없게 하는 말을 묵묵히 들어주셔 감사하면서 죄송하다는 말씀을 드립니다. 모두들 처음 연구실 들어올 때의 모습과 각자 위치에서 고생하던 모습이 아직 선합니다. 밤까지 동국대로 출장 다니며 고생하신 도형이형, 광역 과제로 천안으로 출퇴근하다시피 다니시던 동규형과 성진이형이 특히 수고하셨습니다. 이듬해 산자부 자율차 대회에 참가해서 제 괴롭힘(?)을 받으며 굉장히 스트레스가 많았을 것인데 최종 결과로 보답해드리지 못해 죄송할 따름입니다. 개인적으로는 마지막 대구의 한 모텔에서 4일간 에너지 드링크를 세워두고 코딩했던 철야 경험은 연구실 생활 중에서 손에 꼽는 추억이 되었습니다. 형들께도 힘들었지만 의미있던 경험이 되어 있으면 저도 보람찰 것 같습니다. 남은 석사 기간동안은 좋은 연구 주제로 훌륭한 결과 얻으실 수 있기를 바라겠습니다. 그리고 5년간 함께 공부하고 고생한 영보에게는 정말 감사합니다. 대학 생활의 80\%이상을 이 친구와 함께 했지만 서로 의지가 되지는 못할 망정 항상 따라가기 벅찬 기분이었습니다. 근면성실한 품성과 출중한 기본기를 바탕으로 훌륭하게 연구를 수행하고 제가 미처 놓치거나 무시한 부분을 들춰주고 지적해 주어 많은 공부가 되었습니다. 학부과정때 광역과제와 충주APC과제, 해양연과제 등 많은 일을 함께 처리했지만 정작 연구에 대해서는 서로 관련된 주제로 심도있게 토의하고 협력한 결과를 내지 못하여 아쉽게 생각합니다. 서로 다른 곳에서 열심히 공부해서 추후 좋은 연구 주제로 다시 같이 머리를 맞댈 수 있는 날이 오기를 기대합니다.\\
 \begin{flushright}
 \vspace{1cm}
 이재민 배상
